@@ -1,24 +1,20 @@
 from aiohttp import web
+from api.users import URLS
+from api.utils import RouterRegistryService
 
 
 async def index(request):
     return web.Response(text="Hello, world")
 
 
-async def get_all_users(request):
-    return web.Response(text="first, second")
-
-
-async def register_user(request):
-    return web.Response(text=(await request.text()))
-
-
 app = web.Application()
+
+rrs = RouterRegistryService(app)
+rrs.register_routes(URLS)
+
 
 app.add_routes([
     web.get("/", index),
-    web.get("/users/", get_all_users),
-    web.post("/users/", register_user),
 ])
 
 
