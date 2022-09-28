@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  airhockey:
+    build:
+      dockerfile: docker/backend/Dockerfile
+    ports:
+      - 8080:8080
+    restart: "always"
+    volumes:
+      - ./backend/airhockey_backend:/app/airhockey_backend
+    depends_on:
+      - postgres
+    networks:
+      - airhockey-network
+      - microservice-network
+
+  postgres:
+    image: "postgres:14.5-alpine"
+    restart: "always"
+    env_file:
+      - ./docker/postgres/.env
+    networks:
+      - airhockey-network
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+networks:
+  airhockey-network:
+  microservice-network:
+    driver: bridge
+    name: microservice-network
+
+volumes:
+  postgres:
