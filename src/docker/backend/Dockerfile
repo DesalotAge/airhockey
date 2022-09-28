@@ -9,8 +9,7 @@ RUN apt-get update &&\
 
 WORKDIR /app
 
-COPY ./backend/poetry.lock  /app
-COPY ./backend/pyproject.toml /app
+COPY ./backend/poetry.lock ./backend/pyproject.toml /app/
 
 RUN poetry install
 
